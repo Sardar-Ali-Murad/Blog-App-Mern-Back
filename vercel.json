@@ -1,0 +1,17 @@
+// This is the configuration file in order to deploy on the vercel the node app this is necessary and the name of the root file must be "index.js" to deploy on thr vercel
+
+{
+    "version": 2,
+    "builds": [
+     {
+         "src": "./index.js",
+         "use": "@vercel/node"
+     }
+    ],
+    "routes": [
+     {
+         "src": "/(.*)",
+         "dest": "/"
+     }
+    ]
+ }
