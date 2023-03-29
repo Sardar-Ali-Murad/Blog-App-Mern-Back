@@ -6,12 +6,14 @@ import {
   register,
   login,
   getCurrentUser,
-  getAllUsers,
+  forgotPassword,
+  resetPassword,
 } from "../controllers/authController.js";
 
 router.route("/register").post(register);
 router.route("/login").post(login);
 router.route("/getCurrentUser").get(auth, getCurrentUser);
-router.route("/getAllUsers").get(auth, getAllUsers);
+router.route("/forgetPassword").post(forgotPassword);
+router.route("/resetPassword").post(resetPassword);
 
 export default router;

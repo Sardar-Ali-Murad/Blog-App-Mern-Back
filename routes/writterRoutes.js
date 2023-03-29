@@ -11,10 +11,10 @@ import {
 } from "../controllers/writterController.js";
 
 router.route("/").post(createWritter);
-router.route("/writerId").get(getSingleWritter);
-router.route("/approveWriter").get(getAllApprovedWritters);
-// Belwo we need to the middelware
-router.route("/writerRequests").get(getAllWritterRequests);
+router.route("/:writerId").get(getSingleWritter);
+router.route("/approvedWriters").get(getAllApprovedWritters);
+// Belwo we need to add the middelware
+router.route("/writersRequests").get(getAllWritterRequests);
 // Belwo we need to the middelware
 router.route("/approveWriter").get(ApproveWritter);
 

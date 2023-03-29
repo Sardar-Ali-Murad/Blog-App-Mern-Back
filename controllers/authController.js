@@ -1,6 +1,9 @@
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 import User from "../models/User.js";
+import sendResetPassswordEmail from "../utils/sendResetPasswordEmail.js";
+import createHash from "../utils/createHash.js";
+import crypto from "crypto";
 
 const register = async (req, res) => {
   const { email, password, firstName, lastName, categories, phoneNo } =
@@ -63,29 +66,22 @@ const getCurrentUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user: currentUser });
 };
 
-const getAllUsers = async (req, res) => {
-  let allUsers = await User.find({});
-  res.status(StatusCodes.OK).json({ user: allUsers });
-};
-
-
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
   if (!email) {
-    throw new BadRequestError('Please provide  email');
+    throw new BadRequestError("Please provide  email");
   }
 
   const user = await User.findOne({ email });
 
-  if(!user){
-    throw new BadRequestError("This user does not exists in our system")
+  if (!user) {
+    throw new BadRequestError("This user does not exists in our system");
   }
 
   if (user) {
-    const passwordToken = crypto.randomBytes(70).toString('hex');
-    // send email
-    const origin = 'http://localhost:3000';
-    await sendResetPassswordEmail ({
+    const passwordToken = crypto.randomBytes(70).toString("hex");
+    const origin = "localhost:3000";
+    await sendResetPassswordEmail({
       name: user.name,
       email: user.email,
       token: passwordToken,
@@ -102,28 +98,25 @@ const forgotPassword = async (req, res) => {
 
   res
     .status(StatusCodes.OK)
-    .json({ msg: 'Please check your email for reset password link' });
+    .json({ msg: "Please check your email for reset password link" });
 };
-
-
 
 const resetPassword = async (req, res) => {
   const { token, email, password } = req.body;
   if (!token || !email || !password) {
-    throw new BadRequestError('Please provide all values');
+    throw new BadRequestError("Please provide all values");
   }
   const user = await User.findOne({ email });
 
   const currentDate = new Date();
-  
-  if( user.passwordToken !== createHash(token)){
-    throw new BadRequestError("Your Token Is Incorrect Please Try Again!")
+
+  if (user.passwordToken !== createHash(token)) {
+    throw new BadRequestError("Your Token Is Incorrect Please Try Again!");
   }
 
-  if( user.passwordTokenExpirationDate < currentDate){
-     throw new BadRequestError("Sorry Your Token Is Expired Try Again!")
+  if (user.passwordTokenExpirationDate < currentDate) {
+    throw new BadRequestError("Sorry Your Token Is Expired Try Again!");
   }
-
 
   if (user) {
     if (
@@ -137,9 +130,7 @@ const resetPassword = async (req, res) => {
     }
   }
 
-  res.status(StatusCodes.OK).json({msg:"Password Reset Successfully!"});
-  
+  res.status(StatusCodes.OK).json({ msg: "Password Reset Successfully!" });
 };
 
-
-export { register, login, getAllUsers, getCurrentUser ,forgotPassword,resetPassword};
+export { register, login, getCurrentUser, forgotPassword, resetPassword };

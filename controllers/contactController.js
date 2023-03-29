@@ -1,7 +1,12 @@
 import ContactModel from "../models/Contact.js";
 import { StatusCodes } from "http-status-codes";
+import { BadRequestError } from "../errors/index.js";
 
 export const createContact = async (req, res) => {
+  let { name, email, contact, reason, message } = req.body;
+  if (!name || !email || !contact || !reason || !message) {
+    throw new BadRequestError("Please Provide all the fields");
+  }
   let Contact = await ContactModel.create(req.body);
   res
     .status(StatusCodes.CREATED)

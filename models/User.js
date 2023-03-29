@@ -42,8 +42,8 @@ const UserSchema = new mongoose.Schema({
     enum: ["Technology", "SelfImprovement"],
     require: [true, "Please Provide your field"],
   },
-   // For the reset password
-   passwordToken: {
+  // For the reset password
+  passwordToken: {
     type: String,
   },
   passwordTokenExpirationDate: {
