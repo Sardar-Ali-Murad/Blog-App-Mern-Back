@@ -20,7 +20,7 @@ export const getAllBlogs = async (req, res) => {
 
 export const getSingleBlog = async (req, res) => {
   let { blogId } = req.params;
-  let Blog = await BlogModel.find({ _id: blogId }).populate({
+  let Blog = await BlogModel.findOne({ _id: blogId }).populate({
     path: "writer",
     select: "-email -city -contactNumber -age",
   });
