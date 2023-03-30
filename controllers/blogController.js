@@ -1,9 +1,17 @@
 import BlogModel from "../models/Blog.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
+import WriterModel from "../models/Writter.js";
 
 export const getAllBlogs = async (req, res) => {
-  let Blogs = await BlogModel.find({ category: req.query.category }).populate({
+  let category = req.query.category;
+  const queryObject = {};
+
+  if (category && category !== "all") {
+    queryObject.category = category;
+  }
+
+  let Blogs = await BlogModel.find(category).populate({
     path: "writer",
     select: "-email -city -contactNumber -age",
   });
@@ -35,8 +43,8 @@ export const createBlog = async (req, res) => {
   if (!title || !subTitle || !description || !category) {
     throw new BadRequestError("Please Provide all the fields");
   }
-  let { writerId } = req.body;
-  req.body.writer = writerId;
+  let writer = await WriterModel.findOne({ user: req.user.userId });
+  req.body.writer = writer._id;
   await BlogModel.create(req.body);
   res.status(StatusCodes.OK).json({ msg: "The Blog is added Successfully" });
 };

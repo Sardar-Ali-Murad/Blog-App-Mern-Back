@@ -1,5 +1,4 @@
 import express from "express";
-
 let router = express.Router();
 
 import {
@@ -7,6 +6,12 @@ import {
   getAllContactMessages,
 } from "../controllers/contactController.js";
 
-router.route("/").post(createContact).get(getAllContactMessages);
+import { authorizePermissions } from "../middleware/auth.js";
+import auth from "../middleware/auth.js";
+
+router
+  .route("/")
+  .post(createContact)
+  .get(auth, authorizePermissions("admin"), getAllContactMessages);
 
 export default router;

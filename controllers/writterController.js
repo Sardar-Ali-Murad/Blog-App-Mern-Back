@@ -1,6 +1,7 @@
 import WritterModel from "../models/Writter.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError } from "../errors/index.js";
+import User from "../models/User.js";
 
 export const createWritter = async (req, res) => {
   let {
@@ -29,10 +30,14 @@ export const createWritter = async (req, res) => {
   ) {
     throw new BadRequestError("Please Provide all the fields");
   }
-  await WritterModel.create(req.body);
+
+  req.body.user = req.user.userId;
+  let writer = await WritterModel.create(req.body);
   res
     .status(StatusCodes.CREATED)
-    .json({ msg: "Your request to become writter is submited successfully" });
+    .json({
+      msg: "Your request to become writter is submited successfully",
+    });
 };
 
 // This is route must be accessed by the admins only Here Displays the all wriiters how requested to become the writter
@@ -66,4 +71,12 @@ export const getSingleWritter = async (req, res) => {
     throw new BadRequestError("This is Invalid WritterID");
   }
   res.status(StatusCodes.OK).json({ Writter });
+};
+
+export const getCurrentWritter = async (req, res) => {
+  let currentWriter = await WritterModel.findOne({ user: req.user.userId });
+  if (!currentWriter) {
+    throw new BadRequestError("This Writter Does Not Exists");
+  }
+  res.status(StatusCodes.OK).json({ currentWriter });
 };

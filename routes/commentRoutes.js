@@ -5,8 +5,9 @@ import {
   createComment,
   singleBlogComments,
 } from "../controllers/commentController.js";
+import auth from "../middleware/auth.js";
 
-router.route("/createComment/:blogId").post(createComment);
+router.route("/createComment/:blogId").post(auth, createComment);
 router.route("/:blogId").get(singleBlogComments);
 
 export default router;

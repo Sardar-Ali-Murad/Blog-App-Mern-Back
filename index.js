@@ -18,11 +18,10 @@ import authRouter from "./routes/authRoutes.js";
 import blogRouter from "./routes/blogsRoutes.js";
 import contactRouter from "./routes/contactRoutes.js";
 import writerRouter from "./routes/writterRoutes.js";
-import commentRouter from "./routes/commentRoutes.js"
+import commentRouter from "./routes/commentRoutes.js";
 // middleware
 import notFoundMiddleware from "./middleware/not-found.js";
 import errorHandlerMiddleware from "./middleware/error-handler.js";
-import authenticateUser from "./middleware/auth.js";
 
 if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
@@ -50,13 +49,12 @@ app.use(
   })
 );
 
-
 // There is one more middleware we need to build to check for the approvedWritters
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/blog", authenticateUser, blogRouter);
-app.use("/api/v1/writer", authenticateUser, writerRouter);
-app.use("/api/v1/contact", authenticateUser, contactRouter);
-app.use("/api/v1/comment", authenticateUser, commentRouter);
+app.use("/api/v1/blog", blogRouter);
+app.use("/api/v1/writer", writerRouter);
+app.use("/api/v1/contact", contactRouter);
+app.use("/api/v1/comment", commentRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

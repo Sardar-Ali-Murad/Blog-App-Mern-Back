@@ -1,3 +1,5 @@
+// This is the contact Schema if some one has the query then he will fill this form
+
 import mongoose from "mongoose";
 
 let ContactSchema = new mongoose.Schema({

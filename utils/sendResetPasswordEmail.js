@@ -1,4 +1,4 @@
-import sendEmail from "./sendEmail.js"
+import sendEmail from "./sendEmail.js";
 
 const sendResetPassswordEmail = async ({ name, email, token, origin }) => {
   const resetURL = `${origin}/resetPassword?token=${token}&email=${email}`;
@@ -7,11 +7,11 @@ const sendResetPassswordEmail = async ({ name, email, token, origin }) => {
 
   return sendEmail({
     to: email,
-    subject: 'Reset Password',
+    subject: "Reset Password",
     html: `<h4>Hello, ${name}</h4>
    ${message}
    `,
   });
 };
 
-export default sendResetPassswordEmail
+export default sendResetPassswordEmail;

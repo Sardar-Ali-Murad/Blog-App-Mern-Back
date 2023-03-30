@@ -44,6 +44,9 @@ let WritterSchema = new mongoose.Schema({
   },
 
   // Below are the fields which writter if wants he can update in the future!
+  photo: {
+    type: String,
+  },
   facebookId: {
     type: String,
   },
@@ -64,6 +67,11 @@ let WritterSchema = new mongoose.Schema({
   },
   description: {
     type: String,
+  },
+  user: {
+    type: mongoose.Types.ObjectId,
+    ref: "BlogAppUsers",
+    required: [true, "Please first provide your userId"],
   },
 
   // The Wriiter Send the Request and then we need to approve it
