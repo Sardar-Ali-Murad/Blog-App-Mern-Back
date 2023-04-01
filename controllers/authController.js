@@ -80,7 +80,8 @@ const forgotPassword = async (req, res) => {
 
   if (user) {
     const passwordToken = crypto.randomBytes(70).toString("hex");
-    const origin = "http://127.0.0.1:5173";
+    // const origin = "http://127.0.0.1:5173";
+    const origin = "https://blog-app-front.vercel.app";
     await sendResetPassswordEmail({
       name: user.name,
       email: user.email,
