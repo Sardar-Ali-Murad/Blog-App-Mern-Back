@@ -19,6 +19,8 @@ import blogRouter from "./routes/blogsRoutes.js";
 import contactRouter from "./routes/contactRoutes.js";
 import writerRouter from "./routes/writterRoutes.js";
 import commentRouter from "./routes/commentRoutes.js";
+import googleLogin from "./routes/GoogleRoute.js"
+
 // middleware
 import notFoundMiddleware from "./middleware/not-found.js";
 import errorHandlerMiddleware from "./middleware/error-handler.js";
@@ -51,6 +53,7 @@ app.use(
 
 // There is one more middleware we need to build to check for the approvedWritters
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1",googleLogin)
 app.use("/api/v1/blog", blogRouter);
 app.use("/api/v1/writer", writerRouter);
 app.use("/api/v1/contact", contactRouter);
