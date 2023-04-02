@@ -2,6 +2,7 @@ import { OAuth2Client } from "google-auth-library";
 const client = new OAuth2Client(
   "36805434232-210bfjp0a9rkvj96fj8f7dq6jgo8oahs.apps.googleusercontent.com"
 );
+import {BadRequestError}  from "../errors/index.js"
 import User from "../models/User.js";
 import { StatusCodes } from "http-status-codes";
 
@@ -25,19 +26,22 @@ const Login = async (req, res) => {
         .status(StatusCodes.OK)
         .json({ user, token: token });
     } else {
-      const user = await User.create({
-        firstName:name,
-        lastName:name,
-        email,
-        password: "2cesqxue",
-        phoneNo:"123",
-        categories:"Technology"
-      });
-      const token = user.createJWT();
-      res.status(StatusCodes.CREATED).json({
-        user: user,
-        token: token,
-      });
+      // const user = await User.create({
+      //   firstName:name,
+      //   lastName:name,
+      //   email,
+      //   password: "2cesqxue",
+      //   phoneNo:"123",
+      //   categories:"Technology"
+      // });
+      // const token = user.createJWT();
+      // res.status(StatusCodes.CREATED).json({
+      //   user: user,
+      //   token: token,
+      // });
+
+      throw new BadRequestError("Please Register First To Login")
+      // res.status(StatusCodes.OK).json({msg:"Error Occured"})
     }
 
     res.status(StatusCodes.OK).json({ msg: "Success" });
