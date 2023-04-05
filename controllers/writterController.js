@@ -32,12 +32,31 @@ export const createWritter = async (req, res) => {
   }
 
   req.body.user = req.user.userId;
+  let alreadyWriter = await WritterModel.findOne({ email: email });
+  let alreadyWiterWithId = await WritterModel.findOne({
+    user: req.user.userId,
+  });
+
+  if (alreadyWriter) {
+    throw new BadRequestError(
+      "You already have subbmited request for the writer"
+    );
+  }
+
+  if (alreadyWiterWithId) {
+    throw new BadRequestError(
+      "You already have subbmited request for the writer"
+    );
+  }
+
+  let user = await User.findOne({ _id: req.user.userId });
+  user.writer = true;
+  await user.save();
+
   let writer = await WritterModel.create(req.body);
-  res
-    .status(StatusCodes.CREATED)
-    .json({
-      msg: "Your request to become writter is submited successfully",
-    });
+  res.status(StatusCodes.CREATED).json({
+    msg: "Your request to become writter is submited successfully",
+  });
 };
 
 // This is route must be accessed by the admins only Here Displays the all wriiters how requested to become the writter
@@ -79,4 +98,27 @@ export const getCurrentWritter = async (req, res) => {
     throw new BadRequestError("This Writter Does Not Exists");
   }
   res.status(StatusCodes.OK).json({ currentWriter });
+};
+
+export const updateWriter = async (req, res) => {
+  let { writerId } = req.params;
+  let writer = await WritterModel.findOne({
+    user: req.user.userId,
+    _id: writerId,
+  });
+  if (!writer) {
+    throw new BadRequestError("The Writer Not Exists");
+  }
+
+  await WritterModel.findByIdAndUpdate(
+    writerId,
+    {
+      $set: req.body,
+    },
+    { new: true }
+  );
+
+  res
+    .status(StatusCodes.OK)
+    .json({ msg: "Thw Writer is updated successfully" });
 };

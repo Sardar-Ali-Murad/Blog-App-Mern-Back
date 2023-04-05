@@ -1,6 +1,7 @@
 // This is the contact Schema if some one has the query then he will fill this form
 
 import mongoose from "mongoose";
+import validator from "validator";
 
 let ContactSchema = new mongoose.Schema({
   name: {
@@ -9,7 +10,12 @@ let ContactSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, "Please Provide the email"],
+    required: [true, "Please provide email"],
+    validate: {
+      validator: validator.isEmail,
+      message: "Please provide a valid email",
+    },
+    unique: true,
   },
   contact: {
     type: String,

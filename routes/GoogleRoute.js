@@ -1,8 +1,8 @@
-import express from "express"
-let router=express.Router()
+import express from "express";
+let router = express.Router();
 
-import {Login} from "../controllers/GoogleAuth.js"
+import { Login } from "../controllers/GoogleAuth.js";
 
-router.route("/googleLogin").post(Login)
+router.route("/googleLogin").post(Login);
 
-export default router
+export default router;

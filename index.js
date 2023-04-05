@@ -19,7 +19,7 @@ import blogRouter from "./routes/blogsRoutes.js";
 import contactRouter from "./routes/contactRoutes.js";
 import writerRouter from "./routes/writterRoutes.js";
 import commentRouter from "./routes/commentRoutes.js";
-import googleLogin from "./routes/GoogleRoute.js"
+import googleLogin from "./routes/GoogleRoute.js";
 
 // middleware
 import notFoundMiddleware from "./middleware/not-found.js";
@@ -47,13 +47,17 @@ app.use(fileUpload({ useTempFiles: true }));
 app.use(
   cors({
     credentials: true,
-    origin: ["http://127.0.0.1:5173", "https://res.cloudinary.com","https://blog-app-front.vercel.app"],
+    origin: [
+      "http://127.0.0.1:5173",
+      "https://res.cloudinary.com",
+      "https://blog-app-front.vercel.app",
+    ],
   })
 );
 
 // There is one more middleware we need to build to check for the approvedWritters
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1",googleLogin)
+app.use("/api/v1", googleLogin);
 app.use("/api/v1/blog", blogRouter);
 app.use("/api/v1/writer", writerRouter);
 app.use("/api/v1/contact", contactRouter);

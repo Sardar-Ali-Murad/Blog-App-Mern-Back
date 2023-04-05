@@ -16,7 +16,17 @@ let BlogSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ["Category1", "Category2"],
+      enum: [
+        "Travel",
+        "lifestyle",
+        "fashion",
+        "dataScience",
+        "business",
+        "design",
+        "health",
+        "food",
+        "art",
+      ],
       require: [true, "Please Provide your Category"],
     },
     writer: {

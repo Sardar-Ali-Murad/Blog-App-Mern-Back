@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import validator from "validator";
 
 let WritterSchema = new mongoose.Schema({
   // The Below are the necessary Fields for the writer
@@ -7,7 +8,7 @@ let WritterSchema = new mongoose.Schema({
     required: [true, "Please Prvode the name"],
   },
   age: {
-    type: Number,
+    type: String,
     required: [true, "Please Prvode the age"],
   },
   city: {
@@ -28,7 +29,12 @@ let WritterSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, "Please Prvode the email"],
+    required: [true, "Please provide email"],
+    validate: {
+      validator: validator.isEmail,
+      message: "Please provide a valid email",
+    },
+    unique: true,
   },
   contactNumber: {
     type: String,
@@ -43,6 +49,17 @@ let WritterSchema = new mongoose.Schema({
     required: [true, "Please Provide your purpose to become the writter"],
   },
 
+  user: {
+    type: mongoose.Types.ObjectId,
+    ref: "BlogAppUsers",
+    required: [true, "Please first provide your userId"],
+  },
+
+  // The Wriiter Send the Request and then we need to approve it
+  isApproved: {
+    type: Boolean,
+    default: false,
+  },
   // Below are the fields which writter if wants he can update in the future!
   photo: {
     type: String,
@@ -67,17 +84,6 @@ let WritterSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-  },
-  user: {
-    type: mongoose.Types.ObjectId,
-    ref: "BlogAppUsers",
-    required: [true, "Please first provide your userId"],
-  },
-
-  // The Wriiter Send the Request and then we need to approve it
-  isApproved: {
-    type: Boolean,
-    default: false,
   },
 });
 

@@ -9,6 +9,7 @@ import {
   ApproveWritter,
   getSingleWritter,
   getCurrentWritter,
+  updateWriter,
 } from "../controllers/writterController.js";
 
 import { authorizePermissions } from "../middleware/auth.js";
@@ -16,6 +17,7 @@ import auth from "../middleware/auth.js";
 
 router.route("/").post(auth, createWritter);
 router.route("/currentWritter").get(auth, getCurrentWritter);
+router.route("/updateWriter/:writerId").post(auth, updateWriter);
 router.route("/:writerId").get(getSingleWritter);
 router.route("/approvedWriters").get(getAllApprovedWritters);
 // Below we need to add the middelware for the admins

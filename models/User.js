@@ -47,6 +47,10 @@ const UserSchema = new mongoose.Schema({
     enum: ["user", "admin"],
     default: "user",
   },
+  writer: {
+    type: Boolean,
+    default: false,
+  },
   // For the reset password
   passwordToken: {
     type: String,
