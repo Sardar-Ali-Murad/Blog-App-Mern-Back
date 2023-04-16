@@ -6,6 +6,10 @@ let BlogSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please Provide the title"],
     },
+    posterImage:{
+      type: String,
+      required: [true, "Please Provide the PosterImage"],
+    },
     subTitle: {
       type: String,
       required: [true, "Please Provide the subTitle"],
@@ -28,6 +32,11 @@ let BlogSchema = new mongoose.Schema(
         "art",
       ],
       require: [true, "Please Provide your Category"],
+    },
+    status:{
+      type:String,
+      enum:["pending","selected","rejected"],
+      default:"pending"
     },
     writer: {
       type: mongoose.Types.ObjectId,

@@ -27,15 +27,15 @@ let WritterSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please Prvode the qualifications"],
   },
-  email: {
-    type: String,
-    required: [true, "Please provide email"],
-    validate: {
-      validator: validator.isEmail,
-      message: "Please provide a valid email",
-    },
-    unique: true,
-  },
+  // email: {
+  //   type: String,
+  //   required: [true, "Please provide email"],
+  //   validate: {
+  //     validator: validator.isEmail,
+  //     message: "Please provide a valid email",
+  //   },
+  //   unique: true,
+  // },
   contactNumber: {
     type: String,
     required: [true, "Please Prvode the contactNumber"],

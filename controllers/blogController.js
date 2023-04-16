@@ -5,18 +5,31 @@ import WriterModel from "../models/Writter.js";
 
 export const getAllBlogs = async (req, res) => {
   let category = req.query.category;
-  const queryObject = {};
+  const queryObject = {
+    status:"selected"
+  };
 
-  if (category && category !== "all") {
+  if (category && category !== "All") {
     queryObject.category = category;
   }
 
-  let Blogs = await BlogModel.find(category).populate({
+  let Blogs = await BlogModel.find(queryObject).populate({
     path: "writer",
     select: "-email -city -contactNumber -age",
   });
   res.status(StatusCodes.OK).json({ Blogs });
 };
+
+export const getAllBlogsWithOutFilters = async (req, res) => {
+ 
+  let Blogs = await BlogModel.find({status:"selected"}).populate({
+    path: "writer",
+    select: "-email -city -contactNumber -age",
+  });
+  res.status(StatusCodes.OK).json({ Blogs });
+};
+
+
 
 export const getSingleBlog = async (req, res) => {
   let { blogId } = req.params;
@@ -32,15 +45,15 @@ export const getSingleBlog = async (req, res) => {
 
 export const getSingleWritterBlogs = async (req, res) => {
   let { writerId } = req.params;
-  let WritterBlogs = await BlogModel.find({ writer: writerId });
+  let WritterBlogs = await BlogModel.find({ writer: writerId,status:"selected" });
   res.status(StatusCodes.OK).json({ WritterBlogs });
 };
 
 // Here we need to add some middleware for the writters only so that only the approved writter can write the blog
 export const createBlog = async (req, res) => {
-  let { title, subTitle, description, category } = req.body;
+  let { title, subTitle, description, category ,posterImage} = req.body;
 
-  if (!title || !subTitle || !description || !category) {
+  if (!title || !subTitle || !description || !category || !posterImage) {
     throw new BadRequestError("Please Provide all the fields");
   }
   let writer = await WriterModel.findOne({ user: req.user.userId });

@@ -23,7 +23,7 @@ export const createWritter = async (req, res) => {
     !country ||
     !province ||
     !qualifications ||
-    !email ||
+    // !email ||
     !contactNumber ||
     !designation ||
     !purpose
@@ -32,16 +32,16 @@ export const createWritter = async (req, res) => {
   }
 
   req.body.user = req.user.userId;
-  let alreadyWriter = await WritterModel.findOne({ email: email });
+  // let alreadyWriter = await WritterModel.findOne({ email: email });
   let alreadyWiterWithId = await WritterModel.findOne({
     user: req.user.userId,
   });
 
-  if (alreadyWriter) {
-    throw new BadRequestError(
-      "You already have subbmited request for the writer"
-    );
-  }
+  // if (alreadyWriter) {
+  //   throw new BadRequestError(
+  //     "You already have subbmited request for the writer"
+  //   );
+  // }
 
   if (alreadyWiterWithId) {
     throw new BadRequestError(
@@ -79,7 +79,12 @@ export const ApproveWritter = async (req, res) => {
     throw new BadRequestError("This is Invalid WritterID");
   }
   writer.isApproved = true;
+  let writerUser=await User.findOne({_id:writer.user})
+  writerUser.writer=true
+  
+  // let user=User
   await writer.save();
+  await writerUser.save()
   res.status(StatusCodes.OK).json({ msg: "Writter Approved Successfully" });
 };
 
