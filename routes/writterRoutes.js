@@ -19,7 +19,7 @@ router.route("/").post(auth, createWritter);
 router.route("/currentWritter").get(auth, getCurrentWritter);
 router.route("/updateWriter/:writerId").post(auth, updateWriter);
 router.route("/:writerId").get(getSingleWritter);
-router.route("/approvedWriters").get(getAllApprovedWritters);
+router.route("/writers/approvedWriters").get(getAllApprovedWritters);
 // Below we need to add the middelware for the admins
 router
   .route("/writersRequests")

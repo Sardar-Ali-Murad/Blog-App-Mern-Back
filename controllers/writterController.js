@@ -4,20 +4,31 @@ import { BadRequestError } from "../errors/index.js";
 import User from "../models/User.js";
 
 export const createWritter = async (req, res) => {
+
+  let alreadyWiterWithId = await WritterModel.findOne({
+    user: req.user.userId,
+  });
+  
+  if (alreadyWiterWithId) {
+    throw new BadRequestError(
+      "You already have subbmited request for the writer"
+    );
+  }
+
   let {
-    name,
+    // name,
     age,
     city,
     province,
     country,
     qualifications,
-    email,
+    // email,
     contactNumber,
     designation,
     purpose,
   } = req.body;
   if (
-    !name ||
+    // !name ||
     !age ||
     !city ||
     !country ||
@@ -31,11 +42,10 @@ export const createWritter = async (req, res) => {
     throw new BadRequestError("Please Provide all the fields");
   }
 
+  let user = await User.findOne({ _id: req.user.userId });
   req.body.user = req.user.userId;
+  req.body.name=user.firstName
   // let alreadyWriter = await WritterModel.findOne({ email: email });
-  let alreadyWiterWithId = await WritterModel.findOne({
-    user: req.user.userId,
-  });
 
   // if (alreadyWriter) {
   //   throw new BadRequestError(
@@ -43,13 +53,7 @@ export const createWritter = async (req, res) => {
   //   );
   // }
 
-  if (alreadyWiterWithId) {
-    throw new BadRequestError(
-      "You already have subbmited request for the writer"
-    );
-  }
 
-  let user = await User.findOne({ _id: req.user.userId });
   user.writer = true;
   await user.save();
 

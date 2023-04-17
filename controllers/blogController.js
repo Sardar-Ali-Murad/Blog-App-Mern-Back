@@ -44,10 +44,32 @@ export const getSingleBlog = async (req, res) => {
 };
 
 export const getSingleWritterBlogs = async (req, res) => {
+  let category = req.query.category;
   let { writerId } = req.params;
-  let WritterBlogs = await BlogModel.find({ writer: writerId,status:"selected" });
+  const queryObject = {
+    status:"selected",
+    writer:writerId,
+  };
+  if (category && category !== "All") {
+    queryObject.category = category;
+  }
+  // let WritterBlogs = await BlogModel.find({ writer: writerId,status:"selected" });
+  let WritterBlogs = await BlogModel.find(queryObject);
   res.status(StatusCodes.OK).json({ WritterBlogs });
 };
+
+export const  getSingleWriterAllBLogs=async (req,res)=>{
+  let { writerId } = req.params;
+  let {status}=req.query
+  let queryObject={
+    writer:writerId
+  }
+  if(status && status!=="All"){
+    queryObject.status=status
+  }
+  let writerAllBlogs=await BlogModel.find(queryObject)
+  res.status(StatusCodes.OK).json({writerAllBlogs})
+}
 
 // Here we need to add some middleware for the writters only so that only the approved writter can write the blog
 export const createBlog = async (req, res) => {

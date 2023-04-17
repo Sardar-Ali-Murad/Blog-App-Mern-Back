@@ -63,8 +63,11 @@ const login = async (req, res) => {
 
 const getCurrentUser = async (req, res) => {
   let currentUser = await User.findOne({ _id: req.user.userId });
-  res.status(StatusCodes.OK).json({ user: currentUser });
+  const token = currentUser.createJWT();
+  currentUser.password=undefined
+  res.status(StatusCodes.OK).json({ user: currentUser,token });
 };
+
 
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
