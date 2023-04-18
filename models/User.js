@@ -37,6 +37,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide phoneNo"],
   },
+  image:{
+    type: String,
+  },
   categories: {
     type: String,
     enum: ["Technology", "SelfImprovement"],

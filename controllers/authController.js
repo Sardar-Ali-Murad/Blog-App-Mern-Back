@@ -61,6 +61,14 @@ const login = async (req, res) => {
   res.status(StatusCodes.OK).json({ user, token });
 };
 
+
+const changeUserImage=async (req,res)=>{
+  let user=await User.findOne({_id:req.user.userId})
+  user.image=req.body.image
+  await user.save()
+  res.status(StatusCodes.OK).json({msg:"Success"})
+}
+
 const getCurrentUser = async (req, res) => {
   let currentUser = await User.findOne({ _id: req.user.userId });
   const token = currentUser.createJWT();
@@ -137,4 +145,4 @@ const resetPassword = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "Password Reset Successfully!" });
 };
 
-export { register, login, getCurrentUser, forgotPassword, resetPassword };
+export { register, login, getCurrentUser, forgotPassword, resetPassword,changeUserImage };

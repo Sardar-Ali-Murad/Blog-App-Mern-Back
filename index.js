@@ -20,10 +20,12 @@ import contactRouter from "./routes/contactRoutes.js";
 import writerRouter from "./routes/writterRoutes.js";
 import commentRouter from "./routes/commentRoutes.js";
 import googleLogin from "./routes/GoogleRoute.js";
-
+import saveBlog from "./routes/SaveBlogRoutes.js"
+import NewLetterRoutes from "./routes/NewLetterRoutes.js"
 // middleware
 import notFoundMiddleware from "./middleware/not-found.js";
 import errorHandlerMiddleware from "./middleware/error-handler.js";
+import auth from "./middleware/auth.js"
 
 if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));
@@ -62,7 +64,9 @@ app.use("/api/v1", googleLogin);
 app.use("/api/v1/blog", blogRouter);
 app.use("/api/v1/writer", writerRouter);
 app.use("/api/v1/contact", contactRouter);
+app.use("/api/v1/saveBlog", auth,saveBlog);
 app.use("/api/v1/comment", commentRouter);
+app.use("/api/v1/newsLetter", NewLetterRoutes);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
