@@ -15,14 +15,14 @@ import {
 import { authorizePermissions } from "../middleware/auth.js";
 import auth from "../middleware/auth.js";
 
-router.route("/").post(auth, createWritter);
+router.route("/postWriter/createWriter").post(auth, createWritter);
 router.route("/currentWritter").get(auth, getCurrentWritter);
 router.route("/updateWriter/:writerId").post(auth, updateWriter);
 router.route("/:writerId").get(getSingleWritter);
 router.route("/writers/approvedWriters").get(getAllApprovedWritters);
 // Below we need to add the middelware for the admins
 router
-  .route("/writersRequests")
+  .route("/admin/writersRequests")
   .get(auth, authorizePermissions("admin"), getAllWritterRequests);
 router
   .route("/approveWriter/:writerId")

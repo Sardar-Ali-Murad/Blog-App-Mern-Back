@@ -8,8 +8,10 @@ import {
   getSingleBlog,
   getSingleWritterBlogs,
   getAllBlogsWithOutFilters,
-  getSingleWriterAllBLogs
+  getSingleWriterAllBLogs,
+  getAllPendingBlogs
 } from "../controllers/blogController.js";
+import {authorizePermissions}  from "../middleware/auth.js"
 
 import { isWriterApproved } from "../middleware/auth.js";
 import auth from "../middleware/auth.js";
@@ -19,5 +21,6 @@ router.route("/getSingleWriterAllBLogs/:writerId").get(getSingleWriterAllBLogs);
 router.route("/withOutFilters").get(getAllBlogsWithOutFilters);
 router.route("/singleBlog/:blogId").get(getSingleBlog);
 router.route("/singleWriterBlogs/:writerId").get(getSingleWritterBlogs);
+router.route("/admin/getAllPendingBlogs").get(auth,authorizePermissions("admin"),getAllPendingBlogs);
 
 export default router;

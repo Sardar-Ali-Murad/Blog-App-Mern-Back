@@ -4,7 +4,7 @@ import { BadRequestError } from "../errors/index.js";
 import User from "../models/User.js";
 
 export const createWritter = async (req, res) => {
-
+  let user=await User.findOne({_id:req.user.userId})
   let alreadyWiterWithId = await WritterModel.findOne({
     user: req.user.userId,
   });
@@ -14,27 +14,23 @@ export const createWritter = async (req, res) => {
       "You already have subbmited request for the writer"
     );
   }
-
+  
   let {
-    // name,
     age,
     city,
     province,
     country,
     qualifications,
-    // email,
     contactNumber,
     designation,
     purpose,
   } = req.body;
   if (
-    // !name ||
     !age ||
     !city ||
     !country ||
     !province ||
     !qualifications ||
-    // !email ||
     !contactNumber ||
     !designation ||
     !purpose
@@ -42,22 +38,12 @@ export const createWritter = async (req, res) => {
     throw new BadRequestError("Please Provide all the fields");
   }
 
-  let user = await User.findOne({ _id: req.user.userId });
+  
   req.body.user = req.user.userId;
-  req.body.name=user.firstName
-  // let alreadyWriter = await WritterModel.findOne({ email: email });
-
-  // if (alreadyWriter) {
-  //   throw new BadRequestError(
-  //     "You already have subbmited request for the writer"
-  //   );
-  // }
-
-
-  user.writer = true;
-  await user.save();
-
-  let writer = await WritterModel.create(req.body);
+  req.body.name = user.firstName;
+  req.body.email = user.email;
+  
+  await WritterModel.create(req.body);
   res.status(StatusCodes.CREATED).json({
     msg: "Your request to become writter is submited successfully",
   });
@@ -83,12 +69,12 @@ export const ApproveWritter = async (req, res) => {
     throw new BadRequestError("This is Invalid WritterID");
   }
   writer.isApproved = true;
-  let writerUser=await User.findOne({_id:writer.user})
-  writerUser.writer=true
-  
+  let writerUser = await User.findOne({ _id: writer.user });
+  writerUser.writer = true;
+
   // let user=User
   await writer.save();
-  await writerUser.save()
+  await writerUser.save();
   res.status(StatusCodes.OK).json({ msg: "Writter Approved Successfully" });
 };
 
