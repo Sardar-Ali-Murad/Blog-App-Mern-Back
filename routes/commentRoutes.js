@@ -1,13 +1,11 @@
-import express from "express";
-let router = express.Router();
+import express from "express"
 
-import {
-  createComment,
-  singleBlogComments,
-} from "../controllers/commentController.js";
-import auth from "../middleware/auth.js";
+let router=express.Router()
 
-router.route("/createComment/:blogId").post(auth, createComment);
-router.route("/:blogId").get(singleBlogComments);
+import {createComment,getSingleBlogComments,updateComment} from "../controllers/CommentController.js"
+import auth from "../middleware/auth.js"
 
-export default router;
+router.route("/:blogId").post(auth,createComment).get(getSingleBlogComments)
+router.route("/updateComment/:commentId").patch(auth,updateComment)
+
+export default router

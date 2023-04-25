@@ -6,7 +6,7 @@ let BlogSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please Provide the title"],
     },
-    posterImage:{
+    posterImage: {
       type: String,
       required: [true, "Please Provide the PosterImage"],
     },
@@ -33,16 +33,17 @@ let BlogSchema = new mongoose.Schema(
       ],
       require: [true, "Please Provide your Category"],
     },
-    status:{
-      type:String,
-      enum:["pending","selected","rejected"],
-      default:"pending"
+    status: {
+      type: String,
+      enum: ["pending", "selected", "rejected"],
+      default: "pending",
     },
     writer: {
       type: mongoose.Types.ObjectId,
       ref: "BlogAppWritter",
       required: [true, "Provide the writterId"],
     },
+
   },
   { timestamps: true }
 );

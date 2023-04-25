@@ -1,7 +1,10 @@
 import BlogModel from "../models/Blog.js";
-import { StatusCodes } from "http-status-codes";
+import {  StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import WriterModel from "../models/Writter.js";
+// import { nanoid } from "nanoid";
+// import {Nanoid} from "nanoid"
+import { v4 as uuidv4 } from 'uuid';
 
 export const getAllBlogs = async (req, res) => {
   let category = req.query.category;
@@ -33,7 +36,8 @@ export const getSingleBlog = async (req, res) => {
   let Blog = await BlogModel.findOne({ _id: blogId }).populate({
     path: "writer",
     select: "-email -city -contactNumber -age",
-  });
+  })
+
   if (!Blog) {
     throw new NotFoundError("The Blog Not Exists");
   }
@@ -81,13 +85,41 @@ export const createBlog = async (req, res) => {
   res.status(StatusCodes.OK).json({ msg: "The Blog is added Successfully" });
 };
 
-
 // Get All Pending Blogs
 export const getAllPendingBlogs = async (req, res) => {
   let queryObject = {
     status: "pending",
   };
 
-  let pendingBlogs = await BlogModel.find(queryObject);
+  let pendingBlogs = await BlogModel.find(queryObject).populate({
+    path: "writer",
+    select: "-email -city -contactNumber -age",
+  });
   res.status(StatusCodes.OK).json({ pendingBlogs });
 };
+
+export const approveBlogByAdmin = async (req, res) => {
+  let { blogId } = req.params;
+  let approveBlog = await BlogModel.findOne({ _id: blogId });
+  if (!approveBlog) {
+    throw new BadRequestError("The Blog doest not exists");
+  }
+
+  approveBlog.status = "selected";
+  await approveBlog.save();
+  res.status(StatusCodes.OK).json({ msg: "Blog Approved Successfully" });
+};
+
+export const rejectBlogByAdmin = async (req, res) => {
+  let { blogId } = req.params;
+  let rejectBlog = await BlogModel.findOne({ _id: blogId });
+  if (!rejectBlog) {
+    throw new BadRequestError("The Blog doest not exists");
+  }
+
+  rejectBlog.status = "rejected";
+  await rejectBlog.save();
+  res.status(StatusCodes.OK).json({ msg: "Blog Rejected Successfully" });
+};
+
+

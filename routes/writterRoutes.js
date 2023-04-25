@@ -25,7 +25,7 @@ router
   .route("/admin/writersRequests")
   .get(auth, authorizePermissions("admin"), getAllWritterRequests);
 router
-  .route("/approveWriter/:writerId")
+  .route("/admin/approveWriter/:writerId")
   .get(auth, authorizePermissions("admin"), ApproveWritter);
 
 export default router;
