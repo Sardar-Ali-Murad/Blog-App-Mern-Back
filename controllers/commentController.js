@@ -1,3 +1,8 @@
+// Note:
+
+//  The CommentController.js file is some how breaking in producing so I am puuting the controllers of the comments  in blogsController.js
+
+
 // import { StatusCodes } from "http-status-codes";
 
 // import { BadRequestError, NotFoundError } from "../errors/index.js";

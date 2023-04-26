@@ -43,7 +43,6 @@ let BlogSchema = new mongoose.Schema(
       ref: "BlogAppWritter",
       required: [true, "Provide the writterId"],
     },
-
   },
   { timestamps: true }
 );

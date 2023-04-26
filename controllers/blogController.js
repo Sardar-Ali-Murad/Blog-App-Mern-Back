@@ -2,8 +2,6 @@ import BlogModel from "../models/Blog.js";
 import {  StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import WriterModel from "../models/Writter.js";
-// import { nanoid } from "nanoid";
-// import {Nanoid} from "nanoid"
 
 
 import CommentModel from "../models/Comment.js";
@@ -128,7 +126,7 @@ export const rejectBlogByAdmin = async (req, res) => {
 
 
 
-// The Comment Portion
+// The Comment Portion The CommentController.js file is some how breaking in producing so I am puuting the controllers of the comments here in Blogs
 export const createComment = async (req,res) => {
   let { blogId } = req.params;
   if (!req.body.comment) {
