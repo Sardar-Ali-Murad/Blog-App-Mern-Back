@@ -48,15 +48,15 @@ app.use(fileUpload({ useTempFiles: true }));
 // "http://127.0.0.1:5173"  is the localhost of React+Vite App we are allowing this by now to use our APIS
 app.use(
   cors({
-    credentials: true,
-    origin: [
-      "http://127.0.0.1:5173",
-      "http://127.0.0.1:5174",
-      "https://res.cloudinary.com",
-      "https://blog-app-front.vercel.app",
-      "https://blog-app-mern-admin.vercel.app"
-    ],
-    // origin:"*"
+    // credentials: true,
+    // origin: [
+    //   "http://127.0.0.1:5173",
+    //   "http://127.0.0.1:5174",
+    //   "https://res.cloudinary.com",
+    //   "https://blog-app-front.vercel.app",
+    //   "https://blog-app-mern-admin.vercel.app"
+    // ],
+    origin:"*"
   })
 );
 
